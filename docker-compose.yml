@@ -26,8 +26,8 @@ services:
     - ./.vol/postgres-init:/docker-entrypoint-initdb.d # Place init file(s) here.
     - ./.vol/postgresf:/var/lib/postgresql/data # I want to manage volumes manually.
 
-#  mongo:
-#    image: mongo
+#mongo:
+#image: mongo
 #    restart: always
 #    environment:
 #      MONGO_INITDB_ROOT_USERNAME: $DB_USER
@@ -41,7 +41,7 @@ services:
 #    environment:
 #      ME_CONFIG_MONGODB_ADMINUSERNAME: $DB_USER
 #      ME_CONFIG_MONGODB_ADMINPASSWORD: $DB_PASSWORD
-#      ME_CONFIG_MONGODB_URL: mongodb://$DB_USER:$DB_PASSWORD@mongo:27017/
+#      ME_CONFIG_MONGODB_URL: $DB_DRIVER:$DB_USER:$DB_PASSWORD@$DB_HOST:27017/
       
   php:
     image: wodby/php:$PHP_TAG
@@ -68,6 +68,7 @@ services:
 #      PHP_XDEBUG_CLIENT_HOST: 10.0.75.1 # Windows
     volumes:
     - ./app:/var/www/html:cached
+    - ./backups:/backups
 ## Alternative for macOS users: Mutagen https://wodby.com/docs/stacks/php/local#docker-for-mac
 #    - backend:/var/www/html
 ## For XHProf and Xdebug profiler traces
@@ -266,7 +267,7 @@ services:
     container_name: "${PROJECT_NAME}_traefik"
     command: --api.insecure=true --providers.docker
     ports:
-    - '8002:80'
+    - '8005:80'
 #    - '8080:8080' # Dashboard
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
