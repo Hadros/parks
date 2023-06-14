@@ -1,0 +1,4 @@
+pg_dump --dbname=postgresql://php:php@parks_postgres:5432/parks > /backups/parks.pgsql
+bin/console doctrine:database:drop --force
+bin/console doctrine:database:create
+psql --dbname=postgresql://php:php@parks_postgres:5432/parks < /backups/parks.pgsql
